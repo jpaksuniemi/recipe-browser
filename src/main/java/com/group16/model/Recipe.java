@@ -5,8 +5,6 @@ import java.time.format.DateTimeFormatter;
 
 public class Recipe {
 
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    
     private String name;
     private String instructions;
     private String info;
@@ -24,7 +22,7 @@ public class Recipe {
         this.info = info;
         this.ingredients = ingredients;
         this.portions = portions;
-        this.time = LocalDateTime.now().format(formatter);
+        this.time = time;
         this.published = published;
         this.rating = rating;
     }
