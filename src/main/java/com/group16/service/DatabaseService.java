@@ -8,6 +8,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.print.DocFlavor.STRING;
+
 public class DatabaseService {
 
     private static final String DB_PATH = "./RecipeDatabase";
@@ -76,7 +78,37 @@ public class DatabaseService {
         return recipes;
     }
 
-    public boolean getUserByUsername(String username, String password) throws SQLException {
+    public void addUser (String username, String password)throws SQLException{
+        String addUser = "INSERT INTO users VALUES ?, ?";
+
+        if(searchUsername(username)){
+            try (PreparedStatement add = connection.prepareStatement(addUser)){
+                add.setString(1, username);
+                add.setString(2, password);
+                add.executeUpdate();
+            }
+        }
+    }
+
+    public boolean searchUsername(String username) throws SQLException {
+        String searchUsername = "SELECT EXSITS(SELECT 1 FROM users WHERE username = ?)";
+
+        try(PreparedStatement searchUser = connection.prepareStatement(searchUsername)){
+            searchUser.setString(1, username);
+            ResultSet resultSet = searchUser.executeQuery();
+            if(resultSet.next()){
+                if(!resultSet.getBoolean(1)){
+                    return false;
+                }
+
+            }
+
+        }
+
+        return true;
+    }
+
+    public boolean authenticateUser(String username, String password) throws SQLException {
         String getUser = "SELECT password FROM users WHERE username = ?";
         try (PreparedStatement statement = connection.prepareStatement(getUser)){
             statement.setString(1, username);
@@ -87,9 +119,7 @@ public class DatabaseService {
                 if(passwordInDB.equals(password)){
                     return true;
                 }
-
             }
-
         }
 
         return false;
