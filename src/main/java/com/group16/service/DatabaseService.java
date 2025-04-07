@@ -38,7 +38,24 @@ public class DatabaseService {
     public void createUser() throws SQLException {
     }
 
-    public void getUserByUsername(String username) throws SQLException {
+    public boolean getUserByUsername(String username, String password) throws SQLException {
+        String getUser = "SELECT password FROM users WHERE username = ?";
+        try (PreparedStatement statement = connection.prepareStatement(getUser)){
+            statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
+
+            if(rs.next()){
+                String passwordInDB = rs.getString(1);
+                if(passwordInDB.equals(password)){
+                    return true;
+                }
+
+            }
+
+        }
+
+        return false;
+
     }
 
     /**
