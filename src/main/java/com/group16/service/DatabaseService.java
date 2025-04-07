@@ -1,5 +1,7 @@
 package com.group16.service;
 
+import com.group16.model.Recipe;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.*;
@@ -8,34 +10,70 @@ import java.util.List;
 
 public class DatabaseService {
 
-    private static final String DB_PATH = "./recipeDatabase";
+    private static final String DB_PATH = "./RecipeDatabase";
     private Connection connection;
 
-    public List<> getAllRecipes() throws SQLException {
+    public List<Recipe> getAllRecipes() throws SQLException {
         String selectAllSQL = "SELECT * FROM recipes";
-        List<> recipes = new ArrayList<>();
+        List<Recipe> recipes = new ArrayList<>();
         try (Statement selectAll = connection.createStatement()) {
-            ResultSet recipes = selectAll.executeQuery(selectAllSQL);
-            while (recipes.next()) {
-                String name = recipes.getString("name");
-                String instructions = recipes.getString("instructions");
-                String info = recipes.getString("info");
-                String ingredients = recipes.getString("ingredients");
-                int portions = recipes.getInt("portions");
-                String time = recipes.getString("time");
-                boolean published = recipes.getBoolean("is_published");
-
-                // TODO
-
-            }
+            ResultSet recipesSet = selectAll.executeQuery(selectAllSQL);
+            extractRecipes(recipesSet, recipes);
         }
         return recipes;
     }
 
-    public void createRecipe() throws SQLException {
+    /**
+     * Extracts Recipe objects from a ResultSet
+     * @param recipesSet ResultSet that contains all columns from the recipes table
+     * @param recipes List that will contain the extracted Recipes
+     * @throws SQLException
+     */
+    private static void extractRecipes(ResultSet recipesSet, List<Recipe> recipes) throws SQLException {
+        while (recipesSet.next()) {
+            String name = recipesSet.getString("name");
+            String instructions = recipesSet.getString("instructions");
+            String info = recipesSet.getString("info");
+            String ingredients = recipesSet.getString("ingredients");
+            int portions = recipesSet.getInt("portions");
+            String time = recipesSet.getString("time");
+            boolean published = recipesSet.getBoolean("is_published");
+
+            Recipe recipe = new Recipe(name, instructions, info, ingredients, portions, time, published, null);
+            recipes.add(recipe);
+        }
     }
 
-    public void createUser() throws SQLException {
+    public void createRecipe(Recipe recipe) throws SQLException {
+        String createRecipeSQL = "INSERT INTO recipes (name, instructions, info, ingredients, portions, time, is_published) " +
+                                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement createRecipe = connection.prepareStatement(createRecipeSQL)) {
+            createRecipe.setString(1, recipe.getName());
+            createRecipe.setString(2, recipe.getInstructions());
+            createRecipe.setString(3, recipe.getInfo());
+            createRecipe.setString(4, recipe.getIngredients());
+            createRecipe.setInt(5, recipe.getPortions());
+            createRecipe.setString(6, recipe.getTime());
+            createRecipe.setBoolean(7, recipe.isPublished());
+            createRecipe.executeUpdate();
+        }
+    }
+
+    /**
+     *
+      * @param query Search recipes from the database using a string that is matched against the recipes name, info and ingredients
+     */
+    public List<Recipe> searchRecipe(String query) throws SQLException {
+        String searchRecipeSQL = "SELECT * FROM recipes WHERE name = ? OR instructions = ? OR info = ?";
+        List<Recipe> recipes = new ArrayList<>();
+        try (PreparedStatement searchRecipe = connection.prepareStatement(searchRecipeSQL)) {
+            searchRecipe.setString(1, query);
+            searchRecipe.setString(2, query);
+            searchRecipe.setString(3, query);
+            ResultSet resultSet = searchRecipe.executeQuery();
+            extractRecipes(resultSet, recipes);
+        }
+        return recipes;
     }
 
     public void getUserByUsername(String username) throws SQLException {
@@ -46,8 +84,8 @@ public class DatabaseService {
      * @throws SQLException
      */
     public void initializeDatabase() throws SQLException {
-        boolean exists = Files.exists(Paths.get(DB_PATH)) && !Files.isDirectory(Paths.get(DB_PATH));
         connection = DriverManager.getConnection("jdbc:sqlite:" + DB_PATH);
+        createTables();
     }
 
     private void createTables() throws SQLException {

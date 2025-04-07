@@ -1,18 +1,32 @@
 package com.group16.model;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Recipe {
+
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     
     private String name;
     private String instructions;
     private String info;
     private String ingredients;
-    private int protions;
+    private int portions;
     private String time;
     private boolean published = false;
-    private double rating;
+    private Double rating;
 
-    public Recipe(){
+    public Recipe() {}
 
+    public Recipe(String name, String instructions, String info, String ingredients, int portions, String time, boolean published, Double rating) {
+        this.name = name;
+        this.instructions = instructions;
+        this.info = info;
+        this.ingredients = ingredients;
+        this.portions = portions;
+        this.time = LocalDateTime.now().format(formatter);
+        this.published = published;
+        this.rating = rating;
     }
 
     public String getName() {
@@ -47,12 +61,12 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
-    public int getProtions() {
-        return protions;
+    public int getPortions() {
+        return portions;
     }
 
-    public void setProtions(int protions) {
-        this.protions = protions;
+    public void setPortions(int portions) {
+        this.portions = portions;
     }
 
     public String getTime() {
