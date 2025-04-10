@@ -11,6 +11,23 @@ public class DatabaseService {
 
     private static final String DB_PATH = "./RecipeDatabase";
     private Connection connection;
+    private static DatabaseService databaseService;
+
+    private DatabaseService() throws SQLException {
+        initializeDatabase();
+        databaseService = this;
+    }
+
+    public static DatabaseService getInstance() {
+        if (databaseService == null) {
+            try {
+                DatabaseService databaseService = new DatabaseService();
+            } catch (Exception e) {
+                System.out.println("Error initializing DatabaseService: " + e.getMessage());
+            }
+        }
+        return databaseService;
+    }
 
     public List<Recipe> getAllRecipes() throws SQLException {
         String selectAllSQL = "SELECT * FROM recipes";
@@ -78,7 +95,7 @@ public class DatabaseService {
     public void addUser (String username, String password)throws SQLException{
         String addUser = "INSERT INTO users(username, password) VALUES (?,?)";
 
-        if(searchUsername(username)){
+        if(isUsernameAvailable(username)){
             try (PreparedStatement add = connection.prepareStatement(addUser)){
                 add.setString(1, username);
                 add.setString(2, password);
@@ -87,19 +104,15 @@ public class DatabaseService {
         }
     }
 
-    public boolean searchUsername(String username) throws SQLException {
+    public boolean isUsernameAvailable(String username) throws SQLException {
         String searchUsername = "SELECT EXISTS(SELECT 1 FROM users WHERE username = ?)";
 
         try(PreparedStatement searchUser = connection.prepareStatement(searchUsername)){
             searchUser.setString(1, username);
             ResultSet resultSet = searchUser.executeQuery();
             if(resultSet.next()){
-                if(!resultSet.getBoolean(1)){
-                    return false;
-                }
-
+                return !resultSet.getBoolean(1);
             }
-
         }
 
         return true;
@@ -127,7 +140,7 @@ public class DatabaseService {
      * Initializes database and creates all necessary tables if they don't already exist
      * @throws SQLException
      */
-    public void initializeDatabase() throws SQLException {
+    private void initializeDatabase() throws SQLException {
         connection = DriverManager.getConnection("jdbc:sqlite:" + DB_PATH);
         createTables();
     }

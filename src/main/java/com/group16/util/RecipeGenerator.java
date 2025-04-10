@@ -7,9 +7,9 @@ public class RecipeGenerator {
 
     /**
      * Inserts three placeholder recipes into the database
-     * @param db Database instance
      */
-    public static void fillDatabase(DatabaseService db) {
+    public static void fillDatabase() {
+        DatabaseService db = DatabaseService.getInstance();
         String[] names = {"Makaronilaatikko", "Jauhelihakastike", "Kalakeitto"};
         int portions = 4;
         String time = "60min";
