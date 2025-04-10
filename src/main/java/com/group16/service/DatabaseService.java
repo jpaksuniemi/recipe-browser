@@ -2,13 +2,10 @@ package com.group16.service;
 
 import com.group16.model.Recipe;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.print.DocFlavor.STRING;
 
 public class DatabaseService {
 
@@ -79,7 +76,7 @@ public class DatabaseService {
     }
 
     public void addUser (String username, String password)throws SQLException{
-        String addUser = "INSERT INTO users VALUES ?, ?";
+        String addUser = "INSERT INTO users(username, password) VALUES (?,?)";
 
         if(searchUsername(username)){
             try (PreparedStatement add = connection.prepareStatement(addUser)){
@@ -91,7 +88,7 @@ public class DatabaseService {
     }
 
     public boolean searchUsername(String username) throws SQLException {
-        String searchUsername = "SELECT EXSITS(SELECT 1 FROM users WHERE username = ?)";
+        String searchUsername = "SELECT EXISTS(SELECT 1 FROM users WHERE username = ?)";
 
         try(PreparedStatement searchUser = connection.prepareStatement(searchUsername)){
             searchUser.setString(1, username);
