@@ -1,5 +1,6 @@
 package com.group16;
 
+import com.group16.view.Login;
 import com.group16.view.Registration;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +20,8 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Registration registration = new Registration();
-        scene = new Scene(registration.getLoginForm());
+        Login login = new Login();
+        scene = new Scene(login.getLoginScreen());
         stage.setScene(scene);
         stage.show();
     }
