@@ -1,5 +1,6 @@
 package com.group16;
 
+import com.group16.view.CreateRecipe;
 import com.group16.view.Login;
 import com.group16.view.Registration;
 import javafx.application.Application;
@@ -21,6 +22,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         Registration registration = new Registration();
         Login login = new Login();
+        CreateRecipe createRecipe = new CreateRecipe();
         scene = new Scene(login.getLoginScreen());
         stage.setScene(scene);
         stage.show();

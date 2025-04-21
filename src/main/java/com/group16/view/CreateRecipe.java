@@ -1,0 +1,180 @@
+package com.group16.view;
+
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+
+public class CreateRecipe {
+
+    public BorderPane getRecipeForm(){
+        BorderPane pane = new BorderPane();
+        pane.setCenter(getBody());
+        return pane;
+    }
+
+    private HBox getTitle(){
+        HBox hbox = new HBox();
+        Label label = new Label("Lisää resepti");
+        label.setFont(new Font("Arial", 30));
+
+        TextField recipeName = new TextField();
+        recipeName.setPromptText("Reseptin nimi");
+        recipeName.setPrefSize(200, 40);
+
+        hbox.getChildren().add(label);
+        hbox.setAlignment(Pos.TOP_LEFT);
+
+        return hbox;
+    }
+
+    private HBox getRecipeNameBox(){
+        HBox hbox = new HBox();
+
+        TextField recipeName = new TextField();
+        recipeName.setPromptText("Reseptin nimi");
+        recipeName.setPrefSize(200, 40);
+
+        hbox.getChildren().add(recipeName);
+
+        return hbox;
+
+    }
+
+    private GridPane getBody() {
+        GridPane grid = new GridPane();
+        grid.setHgap(20);
+        grid.setVgap(20);
+
+        grid.add(getTitle(), 0, 0);
+        grid.add(getRecipeNameBox(), 1, 0);
+
+        grid.add(getDescriptionForm(), 0, 2);
+        grid.add(getInstructions(), 1, 2);
+        grid.add(getIngredients(), 2, 2);
+
+        Button returnButton = new Button("Palaa takaisin");
+        returnButton.setPrefSize(200, 30);
+        grid.add(returnButton, 0, 4);
+
+        grid.add(getPublicRadioButton(), 1, 4);
+
+        Button addButton = new Button("Lisää");
+        addButton.setPrefSize(200, 30);
+        grid.add(addButton, 2, 4);
+
+        grid.setAlignment(Pos.TOP_CENTER);
+        grid.setPadding(new Insets(20));
+
+        return grid;
+    }
+
+    private VBox getDescriptionForm() {
+        VBox vbox = new VBox();
+        vbox.setSpacing(10);
+
+        Label label = new Label("Lyhyt kuvaus reseptistä:");
+        label.setFont(new Font("Arial", 20));
+
+        TextField description = new TextField();
+        description.setPromptText("...");
+        description.setPrefSize(200, 200);
+
+        vbox.getChildren().addAll(label, description, getCookingTime());
+        vbox.setAlignment(Pos.TOP_CENTER);
+
+        return vbox;
+    }
+
+    private VBox getInstructions(){
+        VBox vbox = new VBox();
+        vbox.setSpacing(10);
+
+        Label label = new Label("Valmistusohjeet:");
+        label.setFont(new Font("Arial", 20));
+
+        TextField instructions = new TextField();
+        instructions.setPromptText("...");
+        instructions.setPrefSize(200, 200);
+
+        vbox.getChildren().addAll(label, instructions);
+        vbox.setAlignment(Pos.TOP_CENTER);
+
+        return vbox;
+    }
+
+    private VBox getIngredients(){
+        VBox vbox = new VBox();
+        vbox.setSpacing(10);
+
+        Label label = new Label("Ainesosat:");
+        label.setFont(new Font("Arial", 20));
+
+        TextField ingredients = new TextField();
+        ingredients.setPromptText("...");
+        ingredients.setPrefSize(200, 200);
+
+        vbox.getChildren().addAll(label, ingredients, getPortions());
+        vbox.setAlignment(Pos.TOP_CENTER);
+
+        return vbox;
+    }
+
+    private HBox getCookingTime(){
+        HBox hbox = new HBox();
+        hbox.setSpacing(10);
+
+        Label label = new Label("Valmistusaika:");
+        label.setFont(new Font("Arial", 20));
+
+        TextField time = new TextField();
+        time.setPrefSize(30, 10);
+
+        Label label2 = new Label("min");
+        label.setFont(new Font("Arial", 20));
+
+        hbox.getChildren().addAll(label, time, label2);
+        hbox.setAlignment(Pos.CENTER);
+
+        return hbox;
+    }
+
+    private HBox getPortions(){
+        HBox hbox = new HBox();
+        hbox.setSpacing(10);
+
+        Label label = new Label("Annokset:");
+        label.setFont(new Font("Arial", 20));
+
+        Spinner<Integer> spinner = new Spinner<Integer>(1, 50, 4);
+        spinner.setPrefSize(60, 10);
+
+        hbox.getChildren().addAll(label, spinner);
+        hbox.setAlignment(Pos.CENTER);
+
+        return hbox;
+    }
+
+    private HBox getPublicRadioButton(){
+        HBox hbox = new HBox();
+        hbox.setSpacing(10);
+
+        Label label = new Label("Julkinen?:");
+        label.setFont(new Font("Arial", 20));
+
+        RadioButton radioButton = new RadioButton();
+
+        hbox.getChildren().addAll(label, radioButton);
+        hbox.setAlignment(Pos.CENTER);
+
+        return hbox;
+    }
+}
