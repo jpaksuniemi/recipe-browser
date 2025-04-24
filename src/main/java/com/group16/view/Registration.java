@@ -64,7 +64,10 @@ public class Registration {
         registerButton.setPrefSize(200, 20);
         registerButton.autosize();
 
+        PopupScreen information = new PopupScreen("Rekisteröinti onnistui");
+
         registerButton.setOnAction((ActionEvent event) -> {
+            information.getPopupWindow().showAndWait();
             handleRegistration(usernameInput, passwordInput);
         });
 

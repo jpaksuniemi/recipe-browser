@@ -2,6 +2,7 @@ package com.group16;
 
 import com.group16.view.CreateRecipe;
 import com.group16.view.Login;
+import com.group16.view.MainView;
 import com.group16.view.Registration;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -21,9 +22,10 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Registration registration = new Registration();
+        MainView mainView = new MainView();
         Login login = new Login();
         CreateRecipe createRecipe = new CreateRecipe();
-        scene = new Scene(login.getLoginScreen());
+        scene = new Scene(registration.getLoginForm());
         stage.setScene(scene);
         stage.show();
     }
