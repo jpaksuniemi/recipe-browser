@@ -1,27 +1,33 @@
 package com.group16.view;
 
 import com.group16.controller.RegistrationController;
+import com.group16.util.AutoScaler;
+import com.group16.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public class Registration {
 
     private final RegistrationController controller = new RegistrationController();
-    private Label errorMessage = new Label("Virhe viesti");
+    private Text errorMessage = new Text("");
 
-    public BorderPane getLoginForm() {
-        BorderPane pane = new BorderPane();
-        pane.setCenter(getForm());
-        return pane;
+    public StackPane getRegistrationForm() {
+        VBox vbox = getForm();
+        AutoScaler.makeScaleable(vbox);
+        Group group = new Group(vbox);
+        return new StackPane(group);
     }
 
     private HBox getTitle() {
@@ -41,17 +47,15 @@ public class Registration {
     private HBox getErrorMessage() {
         HBox hbox = new HBox();
         hbox.setPadding(new Insets(0, 12, 15, 12));
-
         hbox.getChildren().add(errorMessage);
         hbox.setAlignment(Pos.CENTER);
 
         return hbox;
     }
 
-    private GridPane getForm() {
-        GridPane pane = new GridPane();
-        pane.setPadding(new Insets(10));
-        pane.setVgap(10);
+    private VBox getForm() {
+        VBox box = new VBox();
+        box.setSpacing(10);
 
         TextField usernameInput = new TextField();
         usernameInput.setPromptText("Käyttäjänimi");
@@ -61,29 +65,36 @@ public class Registration {
         confirmInput.setPromptText("Vahvista salasana");
 
         Button registerButton = new Button("Rekisteröidy");
-        registerButton.setPrefSize(200, 20);
-        registerButton.autosize();
-
-        PopupScreen information = new PopupScreen("Rekisteröinti onnistui");
+        registerButton.setPrefWidth(200);
 
         registerButton.setOnAction((ActionEvent event) -> {
-            information.getPopupWindow().showAndWait();
-            handleRegistration(usernameInput, passwordInput);
+            if (usernameInput.getText().isEmpty() || passwordInput.getText().isEmpty() || confirmInput.getText().isEmpty()) {
+                errorMessage.setText("Täytä kaikki kentät");
+            } else if (!passwordInput.getText().equals(confirmInput.getText())) {
+                errorMessage.setText("Salasanat eivät täsmää");
+            } else {
+                handleRegistration(usernameInput.getText(), passwordInput.getText());
+            }
         });
 
-        pane.add(getTitle(), 0, 0);
-        pane.add(usernameInput, 0, 1);
-        pane.add(passwordInput, 0, 2);
-        pane.add(confirmInput, 0, 3);
-        pane.add(registerButton, 0, 4);
-        pane.add(getErrorMessage(), 0, 5);
-        pane.setAlignment(Pos.CENTER);
+        errorMessage.setFill(Color.RED);
+        errorMessage.setWrappingWidth(box.getWidth());
+        box.getChildren().addAll(getTitle(), usernameInput, passwordInput, confirmInput, registerButton, getErrorMessage());
 
-        return pane;
+        return box;
     }
 
-    private void handleRegistration(TextField usernameInput, PasswordField passwordInput) {
-        errorMessage.setText(controller.registerUser(usernameInput.getText(), passwordInput.getText()));
-        System.out.println("Painoi nappia");
+    private void handleRegistration(String username, String password) {
+        int status = controller.registerUser(username, password);
+        if (status == RegistrationController.SUCCESS) {
+            PopupScreen popupScreen = new PopupScreen("Rekisteröinti onnistui");
+            if (popupScreen.getPopupWindow().showAndWait().isPresent()) {
+                SceneSwitcher.switchToLogin();
+            }
+        } else if (status == RegistrationController.FAILURE) {
+            errorMessage.setText("Käyttäjänimi on jo käytössä");
+        } else {
+            errorMessage.setText("Odottamaton virhe");
+        }
     }
 }

@@ -1,27 +1,33 @@
 package com.group16.view;
 
+import com.group16.controller.LoginController;
+import com.group16.util.AutoScaler;
+import com.group16.util.SceneSwitcher;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Line;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+
+import java.util.Optional;
 
 public class Login {
 
-    private Label errorMessage = new Label("Virhe viesti");
+    private Text errorMessage = new Text("");
+    private LoginController controller = new LoginController();
 
-    public BorderPane getLoginScreen() {
-        BorderPane pane = new BorderPane();
-        pane.setTop(getTitle());
-        pane.setCenter(getBody());
-        return pane;
+    public StackPane getLoginScreen() {
+        VBox pane = new VBox(getTitle(), getBody());
+        AutoScaler.makeScaleable(pane);
+        Group group = new Group(pane);
+        return new StackPane(group);
     }
 
     private HBox getTitle() {
@@ -43,7 +49,6 @@ public class Login {
         grid.add(getOtherOptions(), 1, 0);
         grid.setAlignment(Pos.TOP_CENTER);
         grid.setPadding(new Insets(20));
-
         return grid;
     }
 
@@ -60,9 +65,19 @@ public class Login {
         password.setPromptText("Salasana");
 
         Button login = new Button("Kirjaudu");
+        login.setOnAction(e -> {
+            if (!username.getText().isEmpty() || !password.getText().isEmpty()) {
+                handleLogin(username.getText(), password.getText());
+            } else {
+                errorMessage.setText("Täytä kaikki kentät");
+            }
+        });
 
+        errorMessage.setFill(Color.RED);
+        errorMessage.wrappingWidthProperty().bind(vbox.widthProperty());
+        errorMessage.setTextAlignment(TextAlignment.CENTER);
         vbox.getChildren().addAll(label, username, password, login, errorMessage);
-        vbox.setAlignment(Pos.CENTER);
+        vbox.setAlignment(Pos.TOP_CENTER);
         return vbox;
     }
 
@@ -73,10 +88,31 @@ public class Login {
         label.setFont(new Font("Arial", 20));
 
         Button createAccount = new Button("Luo tili");
+        createAccount.setOnAction(e -> {
+            SceneSwitcher.switchToRegistration();
+        });
+
         Button asAGuest = new Button("Jatka vierailijana");
+        asAGuest.setOnAction(e -> {
+            SceneSwitcher.switchToMainView();
+        });
 
         vBox.getChildren().addAll(label, createAccount, asAGuest);
-        vBox.setAlignment(Pos.CENTER);
+        vBox.setAlignment(Pos.TOP_CENTER);
         return vBox;
+    }
+
+    private void handleLogin(String username, String password) {
+        int status = controller.loginUser(username, password);
+        if (status == LoginController.AUTHENTICATED) {
+            PopupScreen dialog = new PopupScreen("Kirjautuminen onnistui");
+            if (dialog.getPopupWindow().showAndWait().isPresent()) {
+                SceneSwitcher.switchToMainView();
+            }
+        } else if (status == LoginController.NOT_FOUND) {
+            errorMessage.setText("Väärä käyttäjänimi tai salasana");
+        } else {
+            errorMessage.setText("Odottamaton virhe");
+        }
     }
 }
