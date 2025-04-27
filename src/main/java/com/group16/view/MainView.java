@@ -1,7 +1,10 @@
 package com.group16.view;
 
+import com.group16.util.AutoScaler;
+import com.group16.util.ConstantValues;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
@@ -9,11 +12,20 @@ public class MainView {
 
     private TextArea recipeDetails;
 
-    public VBox getView() {
+    public StackPane getView() {
         TextField searchField = new TextField();
         searchField.setPrefWidth(250);
         searchField.setPromptText("Hae");
         Button searchButton = new Button("🔍");
+
+        AnchorPane pane = new AnchorPane();
+        Button menu = new Button("Menu");
+        Button user = new Button("User");
+        AnchorPane.setTopAnchor(menu, 0.0);
+        AnchorPane.setLeftAnchor(menu, 0.0);
+        AnchorPane.setRightAnchor(user, 0.0);
+        AnchorPane.setTopAnchor(user, 0.0);
+        pane.getChildren().addAll(menu, user);
 
         HBox searchBox = new HBox(10, searchField, searchButton);
         searchBox.setPadding(new Insets(10));
@@ -51,10 +63,13 @@ public class MainView {
 
         HBox mainContent = new HBox(10, recipeList, rightPanel);
         mainContent.setAlignment(Pos.CENTER);
-        VBox root = new VBox(10, searchBox, mainContent);
+        VBox root = new VBox(10, pane, searchBox, mainContent);
+        root.setPrefSize(ConstantValues.BASE_WIDTH, ConstantValues.BASE_HEIGHT);
         root.setPadding(new Insets(10));
+        Group group = new Group(root);
+        AutoScaler.makeScaleable(root);
 
-        return root;
+        return new StackPane(group);
     }
 
     private void showRecipeDetails() {
