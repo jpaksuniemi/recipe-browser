@@ -92,7 +92,7 @@ public class DatabaseService {
         return recipes;
     }
 
-    public void addUser (String username, String password)throws SQLException{
+    public boolean addUser (String username, String password)throws SQLException{
         String addUser = "INSERT INTO users(username, password) VALUES (?,?)";
 
         if(isUsernameAvailable(username)){
@@ -101,7 +101,9 @@ public class DatabaseService {
                 add.setString(2, password);
                 add.executeUpdate();
             }
+            return true;
         }
+        return false;
     }
 
     public boolean isUsernameAvailable(String username) throws SQLException {
