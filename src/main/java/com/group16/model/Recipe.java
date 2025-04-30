@@ -27,6 +27,16 @@ public class Recipe {
         this.rating = rating;
     }
 
+    public Recipe(String name, String instructions, String info, String ingredients, int portions, String time, boolean published) {
+        this.name = name;
+        this.instructions = instructions;
+        this.info = info;
+        this.ingredients = ingredients;
+        this.portions = portions;
+        this.time = time;
+        this.published = published;
+    }
+
     public String getName() {
         return name;
     }

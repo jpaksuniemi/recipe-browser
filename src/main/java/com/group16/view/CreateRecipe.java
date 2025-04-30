@@ -1,5 +1,9 @@
 package com.group16.view;
 
+
+import com.group16.controller.RecipeCreationController;
+import com.group16.model.Recipe;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -11,9 +15,24 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
-public class CreateRecipe {
+public class CreateRecipe{
+
+    private TextField description = new TextField();
+    private TextField instructions = new TextField();
+    private TextField ingredients = new TextField();
+    private TextField time = new TextField();
+    private Spinner<Integer> spinner = new Spinner<Integer>(1, 50, 4);
+    private RadioButton radioButton = new RadioButton();
+    private TextField recipeName = new TextField();
+    private Text errorMessage = new Text("");
+
+    private final RecipeCreationController controller = new RecipeCreationController();
+
 
     public BorderPane getRecipeForm(){
         BorderPane pane = new BorderPane();
@@ -26,7 +45,6 @@ public class CreateRecipe {
         Label label = new Label("Lisää resepti");
         label.setFont(new Font("Arial", 30));
 
-        TextField recipeName = new TextField();
         recipeName.setPromptText("Reseptin nimi");
         recipeName.setPrefSize(200, 40);
 
@@ -74,6 +92,19 @@ public class CreateRecipe {
         grid.setAlignment(Pos.TOP_CENTER);
         grid.setPadding(new Insets(20));
 
+        addButton.setOnAction(e -> {
+            if(!recipeName.getText().isEmpty() || !description.getText().isEmpty() || !instructions.getText().isEmpty() || !ingredients.getText().isEmpty() || !time.getText().isEmpty()){
+               handleAddRecipe(recipeName.getText(), description.getText(), ingredients.getText(), instructions.getText(), time.getText(), spinner.getValue(), radioButton.isSelected()); 
+            } else {
+                errorMessage.setText("Täytä kaikki kentät");
+            }
+        });
+
+        errorMessage.setFill(Color.RED);
+        
+        errorMessage.setTextAlignment(TextAlignment.CENTER);
+        grid.add(errorMessage, 2, 3);
+
         return grid;
     }
 
@@ -84,7 +115,6 @@ public class CreateRecipe {
         Label label = new Label("Lyhyt kuvaus reseptistä:");
         label.setFont(new Font("Arial", 20));
 
-        TextField description = new TextField();
         description.setPromptText("...");
         description.setPrefSize(200, 200);
 
@@ -101,7 +131,6 @@ public class CreateRecipe {
         Label label = new Label("Valmistusohjeet:");
         label.setFont(new Font("Arial", 20));
 
-        TextField instructions = new TextField();
         instructions.setPromptText("...");
         instructions.setPrefSize(200, 200);
 
@@ -118,7 +147,6 @@ public class CreateRecipe {
         Label label = new Label("Ainesosat:");
         label.setFont(new Font("Arial", 20));
 
-        TextField ingredients = new TextField();
         ingredients.setPromptText("...");
         ingredients.setPrefSize(200, 200);
 
@@ -135,7 +163,6 @@ public class CreateRecipe {
         Label label = new Label("Valmistusaika:");
         label.setFont(new Font("Arial", 20));
 
-        TextField time = new TextField();
         time.setPrefSize(30, 10);
 
         Label label2 = new Label("min");
@@ -154,7 +181,6 @@ public class CreateRecipe {
         Label label = new Label("Annokset:");
         label.setFont(new Font("Arial", 20));
 
-        Spinner<Integer> spinner = new Spinner<Integer>(1, 50, 4);
         spinner.setPrefSize(60, 10);
 
         hbox.getChildren().addAll(label, spinner);
@@ -170,11 +196,20 @@ public class CreateRecipe {
         Label label = new Label("Julkinen?:");
         label.setFont(new Font("Arial", 20));
 
-        RadioButton radioButton = new RadioButton();
-
         hbox.getChildren().addAll(label, radioButton);
         hbox.setAlignment(Pos.CENTER);
 
         return hbox;
     }
+
+    private void handleAddRecipe(String name, String description, String ingredients, String instructions, String time, int portions, boolean publish){
+        int status = controller.addRecipe(new Recipe(name, instructions, description, ingredients, portions, time, publish));
+
+        if(status == RecipeCreationController.SUCCESS){
+            errorMessage.setText("Reseptin lisääminen onnistui");
+        } else if (status == RecipeCreationController.ERROR){
+            errorMessage.setText("Reseptin lisääminen epäonnistui");
+        }
+    }
+
 }
