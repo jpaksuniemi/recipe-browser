@@ -66,7 +66,7 @@ public class Login {
 
         Button login = new Button("Kirjaudu");
         login.setOnAction(e -> {
-            if (!username.getText().isEmpty() || !password.getText().isEmpty()) {
+            if (!username.getText().isEmpty() && !password.getText().isEmpty()) {
                 handleLogin(username.getText(), password.getText());
             } else {
                 errorMessage.setText("Täytä kaikki kentät");

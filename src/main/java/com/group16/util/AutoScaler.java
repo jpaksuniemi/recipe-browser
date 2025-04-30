@@ -17,7 +17,7 @@ public class AutoScaler {
         node.getTransforms().add(scale);
     }
 
-    public static void initScaler(Scene scene) {
+    public static void setActiveScene(Scene scene) {
         scale.xProperty().bind(Bindings.createDoubleBinding(() ->
                         Math.min(scene.getWidth() / ConstantValues.BASE_WIDTH,
                                  scene.getHeight() / ConstantValues.BASE_HEIGHT),
