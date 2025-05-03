@@ -1,5 +1,7 @@
 package com.group16.model;
 
+import java.util.Random;
+
 public class Recipe {
 
     private String name;
@@ -32,6 +34,19 @@ public class Recipe {
         this.portions = portions;
         this.time = time;
         this.published = published;
+    }
+
+    @Override
+    public String toString() {
+        if (rating == null) {
+            Random random = new Random();
+            rating = random.nextDouble() * 4.0 + 1.0;
+        }
+        return name + " " + getRatingAsStars();
+    }
+
+    public String getRatingAsStars() {
+        return "★".repeat((int) Math.round(rating));
     }
 
     public String getName() {
