@@ -4,6 +4,8 @@ import com.group16.controller.MainController;
 import com.group16.model.Recipe;
 import com.group16.util.AutoScaler;
 import com.group16.util.ConstantValues;
+import com.group16.util.SceneSwitcher;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -68,7 +70,14 @@ public class MainView {
 
     private static AnchorPane getTopButtons() {
         AnchorPane pane = new AnchorPane();
-        Button menu = new Button("Menu");
+
+        MenuItem addRecipe = new MenuItem("Lisää resepti");
+        MenuItem myRecipes = new MenuItem("Omat reseptit");
+        MenuButton menu = new MenuButton("Menu", null, addRecipe, myRecipes);
+
+        addRecipe.setOnAction(e -> {
+            SceneSwitcher.switchToCreateRecipe();
+        });
         Button user = new Button("User");
         AnchorPane.setTopAnchor(menu, 0.0);
         AnchorPane.setLeftAnchor(menu, 0.0);

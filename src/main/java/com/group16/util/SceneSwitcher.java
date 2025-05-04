@@ -1,5 +1,6 @@
 package com.group16.util;
 
+import com.group16.view.CreateRecipe;
 import com.group16.view.Login;
 import com.group16.view.MainView;
 import com.group16.view.Registration;
@@ -39,5 +40,12 @@ public class SceneSwitcher {
         stage.setScene(mainView);
         AutoScaler.setActiveScene(mainView);
         currentScene = mainView;
+    }
+
+    public static void switchToCreateRecipe(){
+        Scene createRecipe = new Scene(new CreateRecipe().getRecipeForm(), currentScene.getWidth(), currentScene.getHeight());
+        stage.setScene(createRecipe);
+        AutoScaler.setActiveScene(createRecipe);
+        currentScene = createRecipe;
     }
 }
