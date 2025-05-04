@@ -72,13 +72,28 @@ public class MainView {
         AnchorPane pane = new AnchorPane();
 
         MenuItem addRecipe = new MenuItem("Lisää resepti");
+        if(!SceneSwitcher.loginStatus){
+            addRecipe.setDisable(true);
+        }
         MenuItem myRecipes = new MenuItem("Omat reseptit");
+        myRecipes.setDisable(true);
         MenuButton menu = new MenuButton("Menu", null, addRecipe, myRecipes);
 
         addRecipe.setOnAction(e -> {
             SceneSwitcher.switchToCreateRecipe();
         });
-        Button user = new Button("User");
+
+        MenuItem log = new MenuItem("Kirjaudu sisään");
+        if(SceneSwitcher.loginStatus){
+            log.setText("Kirjaudu ulos");
+        }
+        MenuButton user = new MenuButton("User", null, log);
+
+        log.setOnAction(e ->{
+            SceneSwitcher.loginStatus = false;
+            SceneSwitcher.switchToLogin();
+        });
+            
         AnchorPane.setTopAnchor(menu, 0.0);
         AnchorPane.setLeftAnchor(menu, 0.0);
         AnchorPane.setRightAnchor(user, 0.0);

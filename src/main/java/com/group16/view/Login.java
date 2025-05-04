@@ -106,6 +106,7 @@ public class Login {
         int status = controller.loginUser(username, password);
         if (status == LoginController.AUTHENTICATED) {
             PopupScreen dialog = new PopupScreen("Kirjautuminen onnistui");
+            SceneSwitcher.loginStatus = true;
             if (dialog.getPopupWindow().showAndWait().isPresent()) {
                 SceneSwitcher.switchToMainView();
             }

@@ -3,6 +3,7 @@ package com.group16.view;
 
 import com.group16.controller.RecipeCreationController;
 import com.group16.model.Recipe;
+import com.group16.util.SceneSwitcher;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -45,9 +46,6 @@ public class CreateRecipe{
         Label label = new Label("Lisää resepti");
         label.setFont(new Font("Arial", 30));
 
-        recipeName.setPromptText("Reseptin nimi");
-        recipeName.setPrefSize(200, 40);
-
         hbox.getChildren().add(label);
         hbox.setAlignment(Pos.TOP_LEFT);
 
@@ -57,7 +55,6 @@ public class CreateRecipe{
     private HBox getRecipeNameBox(){
         HBox hbox = new HBox();
 
-        TextField recipeName = new TextField();
         recipeName.setPromptText("Reseptin nimi");
         recipeName.setPrefSize(200, 40);
 
@@ -82,6 +79,10 @@ public class CreateRecipe{
         Button returnButton = new Button("Palaa takaisin");
         returnButton.setPrefSize(200, 30);
         grid.add(returnButton, 0, 4);
+
+        returnButton.setOnAction(e -> {
+            SceneSwitcher.switchToPreviousView();
+        });
 
         grid.add(getPublicRadioButton(), 1, 4);
 
@@ -206,7 +207,10 @@ public class CreateRecipe{
         int status = controller.addRecipe(new Recipe(name, instructions, description, ingredients, portions, time, publish));
 
         if(status == RecipeCreationController.SUCCESS){
-            errorMessage.setText("Reseptin lisääminen onnistui");
+            PopupScreen dialog = new PopupScreen("Reseptin lisääminen onnistui");
+            if (dialog.getPopupWindow().showAndWait().isPresent()) {
+                SceneSwitcher.switchToMainView();
+            }
         } else if (status == RecipeCreationController.ERROR){
             errorMessage.setText("Reseptin lisääminen epäonnistui");
         }
