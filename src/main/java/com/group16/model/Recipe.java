@@ -1,6 +1,7 @@
 package com.group16.model;
 
 import java.util.Random;
+import com.group16.util.RecipeStyle;
 
 public class Recipe {
 
@@ -12,6 +13,7 @@ public class Recipe {
     private String time;
     private boolean published = false;
     private Double rating;
+    private RecipeStyle genre;
 
     public Recipe() {}
 
@@ -111,6 +113,14 @@ public class Recipe {
 
     public void setRating(double rating) {
         this.rating = rating;
+    }
+
+    public RecipeStyle getGenre() {
+        return genre;
+    }
+
+    public void setGenre(RecipeStyle genre) {
+        this.genre = genre;
     }
 
 }

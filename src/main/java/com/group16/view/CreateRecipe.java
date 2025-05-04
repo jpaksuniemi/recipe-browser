@@ -1,13 +1,15 @@
 package com.group16.view;
 
-
 import com.group16.controller.RecipeCreationController;
 import com.group16.model.Recipe;
+import com.group16.util.RecipeStyle;
 import com.group16.util.SceneSwitcher;
 
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
@@ -31,8 +33,10 @@ public class CreateRecipe{
     private RadioButton radioButton = new RadioButton();
     private TextField recipeName = new TextField();
     private Text errorMessage = new Text("");
+    private ChoiceBox genre = new ChoiceBox<>(FXCollections.observableArrayList(getGenres()));
 
     private final RecipeCreationController controller = new RecipeCreationController();
+    private RecipeStyle[] genreStyle = RecipeStyle.values();
 
 
     public BorderPane getRecipeForm(){
@@ -95,7 +99,7 @@ public class CreateRecipe{
 
         addButton.setOnAction(e -> {
             if(!recipeName.getText().isEmpty() || !description.getText().isEmpty() || !instructions.getText().isEmpty() || !ingredients.getText().isEmpty() || !time.getText().isEmpty()){
-               handleAddRecipe(recipeName.getText(), description.getText(), ingredients.getText(), instructions.getText(), time.getText(), spinner.getValue(), radioButton.isSelected()); 
+               handleAddRecipe(recipeName.getText(), description.getText(), ingredients.getText(), instructions.getText(), time.getText(), spinner.getValue(), radioButton.isSelected(), genre.getSelectionModel().getSelectedIndex()); 
             } else {
                 errorMessage.setText("Täytä kaikki kentät");
             }
@@ -135,7 +139,7 @@ public class CreateRecipe{
         instructions.setPromptText("...");
         instructions.setPrefSize(200, 200);
 
-        vbox.getChildren().addAll(label, instructions);
+        vbox.getChildren().addAll(label, instructions, getGenreBox());
         vbox.setAlignment(Pos.TOP_CENTER);
 
         return vbox;
@@ -190,6 +194,31 @@ public class CreateRecipe{
         return hbox;
     }
 
+    private HBox getGenreBox(){
+        HBox hbox = new HBox();
+        hbox.setSpacing(10);
+
+        Label label = new Label("Tyyli: ");
+        label.setFont(new Font("Arial", 20));
+
+        hbox.getChildren().addAll(label, genre);
+
+        return hbox;
+
+    }
+
+    private String[] getGenres(){
+        String[] genres = new String[RecipeStyle.values().length];
+        int index = 0;
+
+        for(RecipeStyle genre : RecipeStyle.values()){
+            genres[index] = genre.getString();
+            index ++;
+        }
+
+        return genres;
+    }
+
     private HBox getPublicRadioButton(){
         HBox hbox = new HBox();
         hbox.setSpacing(10);
@@ -203,8 +232,11 @@ public class CreateRecipe{
         return hbox;
     }
 
-    private void handleAddRecipe(String name, String description, String ingredients, String instructions, String time, int portions, boolean publish){
-        int status = controller.addRecipe(new Recipe(name, instructions, description, ingredients, portions, time, publish));
+    private void handleAddRecipe(String name, String description, String ingredients, String instructions, String time, int portions, boolean publish, int genreIndex){
+        Recipe recipe = new Recipe(name, instructions, description, ingredients, portions, time, publish);
+        recipe.setGenre(genreStyle[genreIndex]);
+        int status = controller.addRecipe(recipe);
+
 
         if(status == RecipeCreationController.SUCCESS){
             PopupScreen dialog = new PopupScreen("Reseptin lisääminen onnistui");
