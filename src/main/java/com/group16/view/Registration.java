@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -24,7 +25,7 @@ public class Registration {
     private Text errorMessage = new Text("");
 
     public StackPane getRegistrationForm() {
-        VBox vbox = getForm();
+        VBox vbox = new VBox(getBody());
         AutoScaler.makeScaleable(vbox);
         Group group = new Group(vbox);
         return new StackPane(group);
@@ -82,6 +83,20 @@ public class Registration {
         box.getChildren().addAll(getTitle(), usernameInput, passwordInput, confirmInput, registerButton, getErrorMessage());
 
         return box;
+    }
+
+    private GridPane getBody(){
+        GridPane grid = new GridPane();
+        Button returnButton = new Button("Palaa takaisin");
+
+        grid.add(getForm(), 1, 0);
+        grid.add(returnButton, 0, 1);
+
+        returnButton.setOnAction(e ->{
+            SceneSwitcher.switchToPreviousView();
+        });
+
+        return grid;
     }
 
     private void handleRegistration(String username, String password) {

@@ -2,21 +2,23 @@ package com.group16.view;
 
 import com.group16.controller.RecipeCreationController;
 import com.group16.model.Recipe;
+import com.group16.util.AutoScaler;
 import com.group16.util.RecipeStyle;
 import com.group16.util.SceneSwitcher;
 
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -33,16 +35,18 @@ public class CreateRecipe{
     private RadioButton radioButton = new RadioButton();
     private TextField recipeName = new TextField();
     private Text errorMessage = new Text("");
-    private ChoiceBox genre = new ChoiceBox<>(FXCollections.observableArrayList(getGenres()));
+    private ChoiceBox<String> genre = new ChoiceBox<>(FXCollections.observableArrayList(getGenres()));
 
     private final RecipeCreationController controller = new RecipeCreationController();
     private RecipeStyle[] genreStyle = RecipeStyle.values();
 
-
-    public BorderPane getRecipeForm(){
-        BorderPane pane = new BorderPane();
-        pane.setCenter(getBody());
-        return pane;
+    
+    public StackPane getRecipeForm(){
+        VBox vbox = new VBox(getBody());
+        AutoScaler.makeScaleable(vbox);
+        Group group = new Group(vbox);
+        return new StackPane(group);
+        
     }
 
     private HBox getTitle(){
