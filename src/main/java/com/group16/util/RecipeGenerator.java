@@ -18,7 +18,7 @@ public class RecipeGenerator {
         try {
             if (db.getAllRecipes().isEmpty()) {
                     for (String name : names) {
-                        db.createRecipe(new Recipe(name, filler, filler, filler, portions, time, true, null));
+                        db.createRecipe(new Recipe(name, filler, filler, filler, portions, time, true, RecipeStyle.MAIN));
                     }
             }
         } catch (Exception e) {

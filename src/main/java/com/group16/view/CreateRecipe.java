@@ -237,8 +237,7 @@ public class CreateRecipe{
     }
 
     private void handleAddRecipe(String name, String description, String ingredients, String instructions, String time, int portions, boolean publish, int genreIndex){
-        Recipe recipe = new Recipe(name, instructions, description, ingredients, portions, time, publish);
-        recipe.setGenre(genreStyle[genreIndex]);
+        Recipe recipe = new Recipe(name, instructions, description, ingredients, portions, time, publish, genreStyle[genreIndex]);
         int status = controller.addRecipe(recipe);
 
 

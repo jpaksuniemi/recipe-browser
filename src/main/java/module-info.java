@@ -7,4 +7,5 @@ module com.group16 {
     opens com.group16.controller to javafx.fxml;
     opens com.group16.view to javafx.graphics;
     exports com.group16;
+    opens com.group16 to javafx.graphics;
 }

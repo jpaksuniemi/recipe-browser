@@ -28,7 +28,7 @@ public class Recipe {
         this.rating = rating;
     }
 
-    public Recipe(String name, String instructions, String info, String ingredients, int portions, String time, boolean published) {
+    public Recipe(String name, String instructions, String info, String ingredients, int portions, String time, boolean published, RecipeStyle genre) {
         this.name = name;
         this.instructions = instructions;
         this.info = info;
@@ -36,6 +36,7 @@ public class Recipe {
         this.portions = portions;
         this.time = time;
         this.published = published;
+        this.genre = genre;
     }
 
     @Override

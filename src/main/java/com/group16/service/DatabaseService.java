@@ -1,6 +1,7 @@
 package com.group16.service;
 
 import com.group16.model.Recipe;
+import com.group16.util.RecipeStyle;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -53,16 +54,17 @@ public class DatabaseService {
             String ingredients = recipesSet.getString("ingredients");
             int portions = recipesSet.getInt("portions");
             String time = recipesSet.getString("time");
+            RecipeStyle genre = RecipeStyle.fromInt(recipesSet.getInt("genre"));
             boolean published = recipesSet.getBoolean("is_published");
 
-            Recipe recipe = new Recipe(name, instructions, info, ingredients, portions, time, published, null);
+            Recipe recipe = new Recipe(name, instructions, info, ingredients, portions, time, published, genre);
             recipes.add(recipe);
         }
     }
 
     public void createRecipe(Recipe recipe) throws SQLException {
-        String createRecipeSQL = "INSERT INTO recipes (name, instructions, info, ingredients, portions, time, is_published) " +
-                                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String createRecipeSQL = "INSERT INTO recipes (name, instructions, info, ingredients, portions, time, genre, is_published) " +
+                                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement createRecipe = connection.prepareStatement(createRecipeSQL)) {
             createRecipe.setString(1, recipe.getName());
             createRecipe.setString(2, recipe.getInstructions());
@@ -70,7 +72,8 @@ public class DatabaseService {
             createRecipe.setString(4, recipe.getIngredients());
             createRecipe.setInt(5, recipe.getPortions());
             createRecipe.setString(6, recipe.getTime());
-            createRecipe.setBoolean(7, recipe.isPublished());
+            createRecipe.setInt(7, recipe.getGenre().getValue());
+            createRecipe.setBoolean(8, recipe.isPublished());
             createRecipe.executeUpdate();
         }
 
@@ -157,11 +160,12 @@ public class DatabaseService {
                 "ingredients TEXT, " +
                 "portions INTEGER, " +
                 "time TEXT, " +
+                "genre INTEGER, " +
                 "is_published BOOLEAN)";
         String createTableUsers = "CREATE TABLE IF NOT EXISTS users(" +
                 "user_id INTEGER PRIMARY KEY, " +
                 "username TEXT NOT NULL UNIQUE, " +
-                "password TEXT NOT NULL UNIQUE)";
+                "password TEXT NOT NULL)";
         try (Statement statement = connection.createStatement()) {
             statement.execute(createTableRecipes);
             statement.execute(createTableUsers);
