@@ -11,10 +11,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -27,12 +28,12 @@ import javafx.scene.text.TextAlignment;
 
 public class CreateRecipe{
 
-    private TextField description = new TextField();
-    private TextField instructions = new TextField();
-    private TextField ingredients = new TextField();
+    private TextArea description = new TextArea();
+    private TextArea instructions = new TextArea();
+    private TextArea ingredients = new TextArea();
     private TextField time = new TextField();
     private Spinner<Integer> spinner = new Spinner<Integer>(1, 50, 4);
-    private RadioButton radioButton = new RadioButton();
+    private CheckBox checkBox = new CheckBox();
     private TextField recipeName = new TextField();
     private Text errorMessage = new Text("");
     private ChoiceBox<String> genre = new ChoiceBox<>(FXCollections.observableArrayList(getGenres()));
@@ -92,7 +93,7 @@ public class CreateRecipe{
             SceneSwitcher.switchToMainView();
         });
 
-        grid.add(getPublicRadioButton(), 1, 4);
+        grid.add(getPublicCheckBox(), 1, 4);
 
         Button addButton = new Button("Lisää");
         addButton.setPrefSize(200, 30);
@@ -103,7 +104,7 @@ public class CreateRecipe{
 
         addButton.setOnAction(e -> {
             if(!recipeName.getText().isEmpty() && !description.getText().isEmpty() && !instructions.getText().isEmpty() && !ingredients.getText().isEmpty() && !time.getText().isEmpty() && genre.getSelectionModel().getSelectedItem() != null ){
-               handleAddRecipe(recipeName.getText(), description.getText(), ingredients.getText(), instructions.getText(), time.getText(), spinner.getValue(), radioButton.isSelected(), genre.getSelectionModel().getSelectedIndex()); 
+               handleAddRecipe(recipeName.getText(), description.getText(), ingredients.getText(), instructions.getText(), time.getText(), spinner.getValue(), checkBox.isSelected(), genre.getSelectionModel().getSelectedIndex()); 
             } else {
                 errorMessage.setText("Täytä kaikki kentät");
             }
@@ -223,33 +224,45 @@ public class CreateRecipe{
         return genres;
     }
 
-    private HBox getPublicRadioButton(){
+    private HBox getPublicCheckBox(){
         HBox hbox = new HBox();
         hbox.setSpacing(10);
 
         Label label = new Label("Julkinen?:");
         label.setFont(new Font("Arial", 20));
 
-        hbox.getChildren().addAll(label, radioButton);
+        hbox.getChildren().addAll(label, checkBox);
         hbox.setAlignment(Pos.CENTER);
 
         return hbox;
     }
 
     private void handleAddRecipe(String name, String description, String ingredients, String instructions, String time, int portions, boolean publish, int genreIndex){
-        Recipe recipe = new Recipe(name, instructions, description, ingredients, portions, time, publish);
-        recipe.setGenre(genreStyle[genreIndex]);
-        int status = controller.addRecipe(recipe);
+        
+        if (isNumber(time)){
+            String string = "%s min";
+            String timeString = String.format(string, time);
+            Recipe recipe = new Recipe(name, instructions, description, ingredients, portions, timeString, publish);
+            recipe.setGenre(genreStyle[genreIndex]); 
+            int status = controller.addRecipe(recipe);
 
-
-        if(status == RecipeCreationController.SUCCESS){
-            PopupScreen dialog = new PopupScreen("Reseptin lisääminen onnistui");
-            if (dialog.getPopupWindow().showAndWait().isPresent()) {
-                SceneSwitcher.switchToMainView();
+            if(status == RecipeCreationController.SUCCESS){
+                PopupScreen dialog = new PopupScreen("Reseptin lisääminen onnistui");
+                if (dialog.getPopupWindow().showAndWait().isPresent()) {
+                    SceneSwitcher.switchToMainView();
+                }
+            } else if (status == RecipeCreationController.ERROR){
+                errorMessage.setText("Reseptin lisääminen epäonnistui");
             }
-        } else if (status == RecipeCreationController.ERROR){
-            errorMessage.setText("Reseptin lisääminen epäonnistui");
-        }
+        } else errorMessage.setText("Ilmoita aika numeroina");
     }
 
+    private boolean isNumber(String time){
+        for(int i = 0; i < time.length(); i++){
+            if(!Character.isDigit(time.charAt(i))){
+                return false;
+            }
+        } 
+        return true;
+    }
 }
