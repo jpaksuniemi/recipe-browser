@@ -1,5 +1,6 @@
 package com.group16;
 
+import com.group16.util.RecipeGenerator;
 import com.group16.util.SceneSwitcher;
 import javafx.application.Application;
 import javafx.scene.Scene;
