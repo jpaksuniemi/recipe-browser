@@ -89,7 +89,7 @@ public class CreateRecipe{
         grid.add(returnButton, 0, 4);
 
         returnButton.setOnAction(e -> {
-            SceneSwitcher.switchToPreviousView();
+            SceneSwitcher.switchToMainView();
         });
 
         grid.add(getPublicRadioButton(), 1, 4);
@@ -102,7 +102,7 @@ public class CreateRecipe{
         grid.setPadding(new Insets(20));
 
         addButton.setOnAction(e -> {
-            if(!recipeName.getText().isEmpty() || !description.getText().isEmpty() || !instructions.getText().isEmpty() || !ingredients.getText().isEmpty() || !time.getText().isEmpty()){
+            if(!recipeName.getText().isEmpty() && !description.getText().isEmpty() && !instructions.getText().isEmpty() && !ingredients.getText().isEmpty() && !time.getText().isEmpty() && genre.getSelectionModel().getSelectedItem() != null ){
                handleAddRecipe(recipeName.getText(), description.getText(), ingredients.getText(), instructions.getText(), time.getText(), spinner.getValue(), radioButton.isSelected(), genre.getSelectionModel().getSelectedIndex()); 
             } else {
                 errorMessage.setText("Täytä kaikki kentät");

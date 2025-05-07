@@ -57,9 +57,4 @@ public class SceneSwitcher {
         currentScene = createRecipe;
     }
 
-    public static void switchToPreviousView(){
-        stage.setScene(previousScene.get(previousScene.size() -1));
-        currentScene = previousScene.get(previousScene.size() -1);
-        previousScene.remove(previousScene.size() -1);
-    }
 }
