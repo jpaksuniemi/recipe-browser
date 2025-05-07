@@ -12,7 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
@@ -36,7 +36,7 @@ public class CreateRecipe{
     private CheckBox checkBox = new CheckBox();
     private TextField recipeName = new TextField();
     private Text errorMessage = new Text("");
-    private ChoiceBox<String> genre = new ChoiceBox<>(FXCollections.observableArrayList(getGenres()));
+    private ComboBox<String> genre = new ComboBox<>(FXCollections.observableArrayList(getGenres()));
 
     private final RecipeCreationController controller = new RecipeCreationController();
     private RecipeStyle[] genreStyle = RecipeStyle.values();
@@ -205,6 +205,8 @@ public class CreateRecipe{
 
         Label label = new Label("Tyyli: ");
         label.setFont(new Font("Arial", 20));
+
+        genre.setPromptText("Valitse tyyli");
 
         hbox.getChildren().addAll(label, genre);
 
