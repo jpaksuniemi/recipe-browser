@@ -104,7 +104,7 @@ public class CreateRecipe{
 
         addButton.setOnAction(e -> {
             if(!recipeName.getText().isEmpty() && !description.getText().isEmpty() && !instructions.getText().isEmpty() && !ingredients.getText().isEmpty() && !time.getText().isEmpty() && genre.getSelectionModel().getSelectedItem() != null ){
-               handleAddRecipe(recipeName.getText(), description.getText(), ingredients.getText(), instructions.getText(), time.getText(), spinner.getValue(), checkBox.isSelected(), genre.getSelectionModel().getSelectedIndex());
+               handleAddRecipe(recipeName.getText(), description.getText(), ingredients.getText(), instructions.getText(), time.getText(), spinner.getValue(), checkBox.isSelected(), genre.getSelectionModel().getSelectedIndex()); 
             } else {
                 errorMessage.setText("Täytä kaikki kentät");
             }
@@ -237,9 +237,9 @@ public class CreateRecipe{
         return hbox;
     }
 
-    private void handleAddRecipe(String name, String description, String ingredients, String instructions, String time, int portions, boolean publish, int genreIndex) {
-
-        if (isNumber(time)) {
+    private void handleAddRecipe(String name, String description, String ingredients, String instructions, String time, int portions, boolean publish, int genreIndex){
+        
+        if (isNumber(time)){
             String string = "%smin";
             String timeString = String.format(string, time);
             Recipe recipe = new Recipe(name, instructions, description, ingredients, portions, timeString, publish, genreStyle[genreIndex]);
@@ -261,7 +261,7 @@ public class CreateRecipe{
             if(!Character.isDigit(time.charAt(i))){
                 return false;
             }
-        }
+        } 
         return true;
     }
 }
