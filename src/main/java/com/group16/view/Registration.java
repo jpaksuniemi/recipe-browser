@@ -93,7 +93,7 @@ public class Registration {
         grid.add(returnButton, 0, 1);
 
         returnButton.setOnAction(e ->{
-            SceneSwitcher.switchToPreviousView();
+            SceneSwitcher.switchToLogin();
         });
 
         return grid;

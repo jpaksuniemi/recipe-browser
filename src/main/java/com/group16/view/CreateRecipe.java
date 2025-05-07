@@ -237,18 +237,30 @@ public class CreateRecipe{
     }
 
     private void handleAddRecipe(String name, String description, String ingredients, String instructions, String time, int portions, boolean publish, int genreIndex){
-        Recipe recipe = new Recipe(name, instructions, description, ingredients, portions, time, publish, genreStyle[genreIndex]);
-        int status = controller.addRecipe(recipe);
 
+        if (isNumber(time)){
+            String string = "%smin";
+            String timeString = String.format(string, time);
+            Recipe recipe = new Recipe(name, instructions, description, ingredients, portions, timeString, publish, genreStyle[genreIndex]);
+            int status = controller.addRecipe(recipe);
 
-        if(status == RecipeCreationController.SUCCESS){
-            PopupScreen dialog = new PopupScreen("Reseptin lisääminen onnistui");
-            if (dialog.getPopupWindow().showAndWait().isPresent()) {
-                SceneSwitcher.switchToMainView();
+            if(status == RecipeCreationController.SUCCESS){
+                PopupScreen dialog = new PopupScreen("Reseptin lisääminen onnistui");
+                if (dialog.getPopupWindow().showAndWait().isPresent()) {
+                    SceneSwitcher.switchToMainView();
+                }
+            } else if (status == RecipeCreationController.ERROR){
+                errorMessage.setText("Reseptin lisääminen epäonnistui");
             }
-        } else if (status == RecipeCreationController.ERROR){
-            errorMessage.setText("Reseptin lisääminen epäonnistui");
-        }
+        } else errorMessage.setText("Ilmoita aika numeroina");
     }
 
+    private boolean isNumber(String time){
+        for(int i = 0; i < time.length(); i++){
+            if(!Character.isDigit(time.charAt(i))){
+                return false;
+            }
+        }
+        return true;
+    }
 }
