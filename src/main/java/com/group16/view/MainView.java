@@ -17,6 +17,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class MainView {
 
     public StackPane getView() {
         genre.setPromptText("Valitse suodatin");
+        genre.getItems().add(0, "Kaikki");
         rightBox.setPrefSize(ConstantValues.MAINCONTENT_WIDTH, ConstantValues.MAINCONTENT_HEIGHT);
         rightBox.setStyle("-fx-border-style: solid; -fx-border-width: 2; -fx-border-color: #888888;");
         recipeList.getItems().addAll(controller.getRecipes());
@@ -152,7 +154,15 @@ public class MainView {
         if (searchField.getText().isEmpty()) {
             recipeList.getItems().setAll(controller.getRecipes());
         }
-        List<Recipe> results = controller.queryRecipes(searchField.getText(), RecipeStyle.fromInt(genre.getSelectionModel().getSelectedIndex()));
+
+        List<Recipe> results;
+        if (genre.getSelectionModel().getSelectedIndex() == 0) {
+            results = controller.queryRecipes(searchField.getText(), null);
+        } else {
+            // -1 to offset the "all" option
+            results = controller.queryRecipes(searchField.getText(), RecipeStyle.fromInt(genre.getSelectionModel().getSelectedIndex() - 1));
+        }
+
         if (results.isEmpty()) {
             PopupScreen dialog = new PopupScreen("Haulla ei löytynyt reseptejä");
             recipeList.getItems().setAll(controller.getRecipes());
@@ -160,6 +170,7 @@ public class MainView {
         } else {
             recipeList.getItems().setAll(results);
         }
+
     }
 
     private StackPane getPromptBox() {
