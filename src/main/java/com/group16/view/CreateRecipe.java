@@ -87,7 +87,11 @@ public class CreateRecipe{
 
         Button returnButton = new Button("Palaa takaisin");
         returnButton.setPrefSize(200, 30);
-        grid.add(returnButton, 0, 4);
+        returnButton.setId("back");
+        StackPane returnButtonPane = new StackPane(returnButton);
+        returnButtonPane.setAlignment(Pos.CENTER);
+
+        grid.add(returnButtonPane, 0, 4);
 
         returnButton.setOnAction(e -> {
             SceneSwitcher.switchToMainView();
@@ -97,7 +101,11 @@ public class CreateRecipe{
 
         Button addButton = new Button("Lisää");
         addButton.setPrefSize(200, 30);
-        grid.add(addButton, 2, 4);
+        addButton.setId("login");
+        StackPane addButtonPane = new StackPane(addButton);
+        addButtonPane.setAlignment(Pos.CENTER);
+
+        grid.add(addButtonPane, 2, 4);
 
         grid.setAlignment(Pos.TOP_CENTER);
         grid.setPadding(new Insets(20));
@@ -173,7 +181,7 @@ public class CreateRecipe{
         Label label = new Label("Valmistusaika:");
         label.setFont(new Font("Arial", 20));
 
-        time.setPrefSize(30, 10);
+        time.setPrefSize(40, 10);
 
         Label label2 = new Label("min");
         label.setFont(new Font("Arial", 20));

@@ -57,6 +57,7 @@ public class Registration {
     private VBox getForm() {
         VBox box = new VBox();
         box.setSpacing(10);
+        box.setAlignment(Pos.CENTER);
 
         TextField usernameInput = new TextField();
         usernameInput.setPromptText("Käyttäjänimi");
@@ -66,6 +67,7 @@ public class Registration {
         confirmInput.setPromptText("Vahvista salasana");
 
         Button registerButton = new Button("Rekisteröidy");
+        registerButton.setId("login");
         registerButton.setPrefWidth(200);
 
         registerButton.setOnAction((ActionEvent event) -> {
@@ -79,6 +81,7 @@ public class Registration {
         });
 
         Button returnButton = new Button("Palaa takaisin");
+        returnButton.setId("back");
         returnButton.setOnAction(e ->{
             SceneSwitcher.switchToLogin();
         });

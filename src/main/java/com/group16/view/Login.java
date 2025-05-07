@@ -65,6 +65,7 @@ public class Login {
         password.setPromptText("Salasana");
 
         Button login = new Button("Kirjaudu");
+        login.setId("login");
         login.setOnAction(e -> {
             if (!username.getText().isEmpty() && !password.getText().isEmpty()) {
                 handleLogin(username.getText(), password.getText());
