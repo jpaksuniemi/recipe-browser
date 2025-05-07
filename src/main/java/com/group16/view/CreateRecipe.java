@@ -244,16 +244,15 @@ public class CreateRecipe{
         if (isNumber(time)){
             String string = "%smin";
             String timeString = String.format(string, time);
-            Recipe recipe = new Recipe(name, instructions, description, ingredients, portions, timeString, publish);
-            recipe.setGenre(genreStyle[genreIndex]); 
+            Recipe recipe = new Recipe(name, instructions, description, ingredients, portions, timeString, publish, genreStyle[genreIndex]);
             int status = controller.addRecipe(recipe);
 
-            if(status == RecipeCreationController.SUCCESS){
+            if (status == RecipeCreationController.SUCCESS) {
                 PopupScreen dialog = new PopupScreen("Reseptin lisääminen onnistui");
                 if (dialog.getPopupWindow().showAndWait().isPresent()) {
                     SceneSwitcher.switchToMainView();
                 }
-            } else if (status == RecipeCreationController.ERROR){
+            } else if (status == RecipeCreationController.ERROR) {
                 errorMessage.setText("Reseptin lisääminen epäonnistui");
             }
         } else errorMessage.setText("Ilmoita aika numeroina");

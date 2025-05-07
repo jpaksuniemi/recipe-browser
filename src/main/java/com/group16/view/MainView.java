@@ -4,8 +4,10 @@ import com.group16.controller.MainController;
 import com.group16.model.Recipe;
 import com.group16.util.AutoScaler;
 import com.group16.util.ConstantValues;
+import com.group16.util.RecipeStyle;
 import com.group16.util.SceneSwitcher;
 
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -15,6 +17,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class MainView {
@@ -23,8 +26,10 @@ public class MainView {
     private StackPane rightBox = new StackPane(getPromptBox());
     private ListView<Recipe> recipeList = new ListView<>();
     private TextField searchField = new TextField();
+    private ComboBox<String> genre = new ComboBox<>(FXCollections.observableArrayList(Arrays.stream(RecipeStyle.values()).map(RecipeStyle::getString).toArray(String[]::new)));
 
     public StackPane getView() {
+        genre.setPromptText("Valitse suodatin");
         rightBox.setPrefSize(ConstantValues.MAINCONTENT_WIDTH, ConstantValues.MAINCONTENT_HEIGHT);
         rightBox.setStyle("-fx-border-style: solid; -fx-border-width: 2; -fx-border-color: #888888;");
         recipeList.getItems().addAll(controller.getRecipes());
@@ -61,8 +66,9 @@ public class MainView {
         searchField.setOnAction(e -> {
             handleQuery();
         });
+        genre.setOnAction(e -> handleQuery());
 
-        HBox searchBox = new HBox(10, searchField, searchButton);
+        HBox searchBox = new HBox(10, searchField, searchButton, genre);
         searchBox.setPadding(new Insets(10));
         searchBox.setAlignment(Pos.CENTER);
         return searchBox;
@@ -146,7 +152,7 @@ public class MainView {
         if (searchField.getText().isEmpty()) {
             recipeList.getItems().setAll(controller.getRecipes());
         }
-        List<Recipe> results = controller.queryRecipes(searchField.getText());
+        List<Recipe> results = controller.queryRecipes(searchField.getText(), RecipeStyle.fromInt(genre.getSelectionModel().getSelectedIndex()));
         if (results.isEmpty()) {
             PopupScreen dialog = new PopupScreen("Haulla ei löytynyt reseptejä");
             recipeList.getItems().setAll(controller.getRecipes());
