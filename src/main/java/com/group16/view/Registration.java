@@ -25,7 +25,7 @@ public class Registration {
     private Text errorMessage = new Text("");
 
     public StackPane getRegistrationForm() {
-        VBox vbox = new VBox(getBody());
+        VBox vbox = getForm();
         AutoScaler.makeScaleable(vbox);
         Group group = new Group(vbox);
         return new StackPane(group);
@@ -78,25 +78,17 @@ public class Registration {
             }
         });
 
-        errorMessage.setFill(Color.RED);
-        errorMessage.setWrappingWidth(box.getWidth());
-        box.getChildren().addAll(getTitle(), usernameInput, passwordInput, confirmInput, registerButton, getErrorMessage());
-
-        return box;
-    }
-
-    private GridPane getBody(){
-        GridPane grid = new GridPane();
         Button returnButton = new Button("Palaa takaisin");
-
-        grid.add(getForm(), 1, 0);
-        grid.add(returnButton, 0, 1);
-
         returnButton.setOnAction(e ->{
             SceneSwitcher.switchToLogin();
         });
+        returnButton.setPrefSize(registerButton.getPrefWidth(), registerButton.getPrefHeight());
 
-        return grid;
+        errorMessage.setFill(Color.RED);
+        errorMessage.setWrappingWidth(box.getWidth());
+        box.getChildren().addAll(getTitle(), usernameInput, passwordInput, confirmInput, registerButton, returnButton, getErrorMessage());
+
+        return box;
     }
 
     private void handleRegistration(String username, String password) {
