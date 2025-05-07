@@ -1,0 +1,37 @@
+#search-button {
+    -fx-pref-width: 30px;
+}
+
+.text-field {
+    -fx-background-radius: 20px;
+}
+
+.button {
+    -fx-pref-width: 150px;
+    -fx-background-radius: 20px;
+}
+
+#open-button {
+    -fx-pref-width: 50px;
+    -fx-background-color: deepskyblue;
+    -fx-text-fill: #FFFFFF;
+    -fx-border-color: dodgerblue;
+    -fx-border-width: 2px;
+    -fx-border-radius: 20px;
+}
+
+#login {
+    -fx-background-color: deepskyblue;
+    -fx-text-fill: #FFFFFF;
+    -fx-border-color: dodgerblue;
+    -fx-border-width: 2px;
+    -fx-border-radius: 20px;
+}
+
+#back {
+    -fx-background-color: lightcoral;
+    -fx-text-fill: #FFFFFF;
+    -fx-border-color: salmon;
+    -fx-border-width: 2px;
+    -fx-border-radius: 20px;
+}
