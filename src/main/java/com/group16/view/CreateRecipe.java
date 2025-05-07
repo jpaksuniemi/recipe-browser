@@ -240,7 +240,7 @@ public class CreateRecipe{
     private void handleAddRecipe(String name, String description, String ingredients, String instructions, String time, int portions, boolean publish, int genreIndex){
         
         if (isNumber(time)){
-            String string = "%s min";
+            String string = "%smin";
             String timeString = String.format(string, time);
             Recipe recipe = new Recipe(name, instructions, description, ingredients, portions, timeString, publish);
             recipe.setGenre(genreStyle[genreIndex]); 
