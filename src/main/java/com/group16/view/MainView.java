@@ -34,6 +34,8 @@ public class MainView {
         genre.getItems().add(0, "Kaikki");
         rightBox.setPrefSize(ConstantValues.MAINCONTENT_WIDTH, ConstantValues.MAINCONTENT_HEIGHT);
         rightBox.setStyle("-fx-border-style: solid; -fx-border-width: 2; -fx-border-color: #888888;");
+
+        recipeList.setFixedCellSize(35);
         recipeList.getItems().addAll(controller.getRecipes());
         recipeList.setPrefSize(ConstantValues.MAINCONTENT_WIDTH, ConstantValues.MAINCONTENT_HEIGHT);
 
@@ -49,18 +51,19 @@ public class MainView {
         HBox mainContent = new HBox(10, recipeList, rightBox);
         mainContent.setAlignment(Pos.CENTER);
         VBox root = new VBox(10, getTopButtons(), getSearchBar(), mainContent);
-        root.setPrefSize(ConstantValues.BASE_WIDTH, ConstantValues.BASE_HEIGHT);
         root.setPadding(new Insets(10));
         Group group = new Group(root);
         AutoScaler.makeScaleable(root);
-
-        return new StackPane(group);
+        StackPane pane = new StackPane(group);
+        pane.setPrefSize(ConstantValues.BASE_WIDTH, ConstantValues.BASE_HEIGHT);
+        return pane;
     }
 
     private HBox getSearchBar() {
         searchField.setPrefWidth(250);
         searchField.setPromptText("Hae");
         Button searchButton = new Button("🔍");
+        searchButton.setId("search-button");
 
         searchButton.setOnAction(e -> {
             handleQuery();
@@ -69,6 +72,8 @@ public class MainView {
             handleQuery();
         });
         genre.setOnAction(e -> handleQuery());
+
+        genre.setPrefWidth(135);
 
         HBox searchBox = new HBox(10, searchField, searchButton, genre);
         searchBox.setPadding(new Insets(10));
@@ -95,7 +100,7 @@ public class MainView {
         if(SceneSwitcher.loginStatus){
             log.setText("Kirjaudu ulos");
         }
-        MenuButton user = new MenuButton("User", null, log);
+        MenuButton user = new MenuButton("Käyttäjä", null, log);
 
         log.setOnAction(e ->{
             SceneSwitcher.loginStatus = false;
@@ -122,9 +127,11 @@ public class MainView {
         Text ingredientsTitle = new Text("Ainesosat:");
         ingredientsTitle.setFont(new Font(16));
 
+        Text style = new Text(recipe.getGenre().getString());
+
         Text ingredients = new Text(recipe.getIngredients());
 
-        recipeDetails.getChildren().addAll(name, timeAndPortions, ingredientsTitle, ingredients);
+        recipeDetails.getChildren().addAll(name, timeAndPortions, style, ingredientsTitle, ingredients);
         return recipeDetails;
     }
 
@@ -137,6 +144,9 @@ public class MainView {
         AnchorPane bottomRow = new AnchorPane();
         bottomRow.setPadding(new Insets(4));
         Button openButton = new Button("Avaa");
+
+        openButton.setOnAction(e -> new PopupScreen("Toiminnallisuus ei käytettävissä").getPopupWindow().showAndWait());
+        openButton.setId("open-button");
 
         Text rating = new Text(recipe.getRatingAsStars());
         rating.setFont(new Font(16));

@@ -14,9 +14,8 @@ public class RecipeGenerator {
         int portions = 4;
         String time = "60min";
         String filler = "lorem ipsum dolor sit amet";
-
         try {
-            if (db.getAllRecipes().isEmpty()) {
+            if (db.getAllRecipes().isEmpty() || 1 == 1) {
                     for (String name : names) {
                         db.createRecipe(new Recipe(name, filler, filler, filler, portions, time, true, RecipeStyle.MAIN));
                     }
