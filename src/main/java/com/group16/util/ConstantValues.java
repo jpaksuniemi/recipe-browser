@@ -5,4 +5,6 @@ public class ConstantValues {
     public static final Double BASE_HEIGHT = 700.0;
     public static final Double MAINCONTENT_WIDTH = 250.0;
     public static final Double MAINCONTENT_HEIGHT = 400.0;
+
+    public static final String RECIPE_FILEPATH = "src/main/resources/placeholder-recipes.json";
 }

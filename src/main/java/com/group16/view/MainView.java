@@ -130,6 +130,7 @@ public class MainView {
         Text style = new Text(recipe.getGenre().getString());
 
         Text ingredients = new Text(recipe.getIngredients());
+        ingredients.setWrappingWidth(rightBox.getPrefWidth());
 
         recipeDetails.getChildren().addAll(name, timeAndPortions, style, ingredientsTitle, ingredients);
         return recipeDetails;

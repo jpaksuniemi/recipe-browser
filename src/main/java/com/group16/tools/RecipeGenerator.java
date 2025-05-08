@@ -1,7 +1,8 @@
-package com.group16.util;
+package com.group16.tools;
 
 import com.group16.model.Recipe;
 import com.group16.service.DatabaseService;
+import com.group16.util.RecipeStyle;
 
 public class RecipeGenerator {
 

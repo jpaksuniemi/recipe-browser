@@ -1,0 +1,202 @@
+[
+  {
+    "name": "Kaurapuuro",
+    "instructions": "Sekoita kaurahiutaleet ja vesi kattilassa. Keitä miedolla lämmöllä 5-10 minuuttia. Mausta suolalla.",
+    "info": "Perinteinen aamupala.",
+    "ingredients": "2 dl kaurahiutaleita, 4 dl vettä, suola",
+    "portions": 2,
+    "time": "10min",
+    "genre": 5,
+    "is_published": true
+  },
+  {
+    "name": "Vihreä salaatti",
+    "instructions": "Sekoita salaatinlehdet, kurkku ja tomaatti kulhossa. Lisää kastike.",
+    "info": "Kevyt alkuruoka.",
+    "ingredients": "1 jääsalaatti, 1 kurkku, 2 tomaattia, salaattikastike",
+    "portions": 4,
+    "time": "5min",
+    "genre": 0,
+    "is_published": true
+  },
+  {
+    "name": "Kanafileet uunissa",
+    "instructions": "Mausta kanafileet ja paista uunissa 200°C noin 20-25 minuuttia.",
+    "info": "Helppo pääruoka.",
+    "ingredients": "4 kanafileetä, suola, mustapippuri, öljy",
+    "portions": 4,
+    "time": "30min",
+    "genre": 1,
+    "is_published": true
+  },
+  {
+    "name": "Hedelmäinen välipala",
+    "instructions": "Pilko hedelmät ja sekoita kulhossa.",
+    "info": "Nopea ja terveellinen välipala.",
+    "ingredients": "1 omena, 1 banaani, 1 appelsiini",
+    "portions": 2,
+    "time": "5min",
+    "genre": 6,
+    "is_published": true
+  },
+  {
+    "name": "Sitruunakastike",
+    "instructions": "Sekoita kaikki ainekset kulhossa.",
+    "info": "Raikas kastike salaateille.",
+    "ingredients": "1 sitruuna, 2 rkl oliiviöljyä, suola, pippuri",
+    "portions": 4,
+    "time": "5min",
+    "genre": 4,
+    "is_published": true
+  },
+  {
+    "name": "Pannukakku",
+    "instructions": "Sekoita ainekset, kaada uunivuokaan ja paista 225°C noin 30 minuuttia.",
+    "info": "Perinteinen suomalainen jälkiruoka.",
+    "ingredients": "4 dl maitoa, 2 kananmunaa, 2 dl vehnäjauhoja, suola",
+    "portions": 6,
+    "time": "40min",
+    "genre": 2,
+    "is_published": true
+  },
+  {
+    "name": "Marjapirtelö",
+    "instructions": "Sekoita ainekset tehosekoittimessa tasaiseksi.",
+    "info": "Raikas välipala tai jälkiruoka.",
+    "ingredients": "2 dl marjoja, 2 dl maitoa, 1 rkl sokeria",
+    "portions": 2,
+    "time": "5min",
+    "genre": 6,
+    "is_published": true
+  },
+  {
+    "name": "Paistetut perunat",
+    "instructions": "Viipaloi perunat ja paista pannulla öljyssä.",
+    "info": "Herkullinen lisuke.",
+    "ingredients": "4 perunaa, suola, öljy",
+    "portions": 4,
+    "time": "20min",
+    "genre": 3,
+    "is_published": true
+  },
+  {
+    "name": "Munakas",
+    "instructions": "Vatkaa munat, lisää mausteet ja paista pannulla.",
+    "info": "Nopea ja proteiinipitoinen aamupala.",
+    "ingredients": "2 kananmunaa, suola, pippuri, öljy",
+    "portions": 1,
+    "time": "5min",
+    "genre": 5,
+    "is_published": true
+  },
+  {
+    "name": "Perunamuusi",
+    "instructions": "Keitä perunat pehmeiksi ja soseuta. Lisää voi ja maito.",
+    "info": "Klassinen lisuke.",
+    "ingredients": "6 perunaa, 1 dl maitoa, 1 rkl voita, suola",
+    "portions": 4,
+    "time": "30min",
+    "genre": 3,
+    "is_published": true
+  },
+  {
+    "name": "Kalakeitto",
+    "instructions": "Keitä perunat ja porkkanat, lisää kala ja mausteet.",
+    "info": "Perinteinen suomalainen keitto.",
+    "ingredients": "300g lohta, 4 perunaa, 1 porkkana, 1 sipuli, 5dl vettä, suola, tilli",
+    "portions": 4,
+    "time": "30min",
+    "genre": 1,
+    "is_published": true
+  },
+  {
+    "name": "Mansikkarahka",
+    "instructions": "Sekoita ainekset kulhossa.",
+    "info": "Raikas jälkiruoka.",
+    "ingredients": "2dl kermaa, 200g mansikoita, 2rkl sokeria, 250g rahkaa",
+    "portions": 4,
+    "time": "10min",
+    "genre": 2,
+    "is_published": true
+  },
+  {
+    "name": "Hummus",
+    "instructions": "Soseuta kikherneet ja mausteet tasaiseksi tahnaksi.",
+    "info": "Perinteinen välimerellinen lisuke.",
+    "ingredients": "400g kikherneitä, 2rkl tahinia, 1 valkosipulinkynsi, 2rkl sitruunamehua, suola, 1rkl oliiviöljyä",
+    "portions": 6,
+    "time": "15min",
+    "genre": 4,
+    "is_published": true
+  },
+  {
+    "name": "Marjakiisseli",
+    "instructions": "Keitä marjat ja sokeri, suurusta perunajauholla.",
+    "info": "Perinteinen suomalainen jälkiruoka.",
+    "ingredients": "200g marjoja, 5dl vettä, 1dl sokeria, 2rkl perunajauhoja",
+    "portions": 4,
+    "time": "20min",
+    "genre": 2,
+    "is_published": true
+  },
+  {
+    "name": "Kaurakeksit",
+    "instructions": "Sekoita ainekset, muodosta taikinapalloja ja paista 200°C noin 10 minuuttia.",
+    "info": "Helppo kotitekoinen välipala.",
+    "ingredients": "2dl kaurahiutaleita, 1dl sokeria, 1 kananmuna, 1dl voita, 1dl vehnäjauhoja",
+    "portions": 20,
+    "time": "15min",
+    "genre": 6,
+    "is_published": true
+  },
+  {
+    "name": "Vihersmoothie",
+    "instructions": "Sekoita ainekset tehosekoittimessa.",
+    "info": "Terveellinen aamupala tai välipala.",
+    "ingredients": "1 banaani, 1 kourallinen pinaattia, 2dl vettä, 1rkl hunajaa",
+    "portions": 2,
+    "time": "5min",
+    "genre": 5,
+    "is_published": true
+  },
+  {
+    "name": "Pinaattiletut",
+    "instructions": "Sekoita taikina, paista pannulla lettuja.",
+    "info": "Klassinen suomalainen lounas tai välipala.",
+    "ingredients": "2dl maitoa, 1 kananmuna, 1dl vehnäjauhoja, 100g pinaattia, suola",
+    "portions": 4,
+    "time": "20min",
+    "genre": 1,
+    "is_published": true
+  },
+  {
+    "name": "Sämpylät",
+    "instructions": "Sekoita ainekset, kohota taikinaa ja paista 225°C noin 15 minuuttia.",
+    "info": "Pehmeät kotitekoiset sämpylät.",
+    "ingredients": "5dl vettä, 10dl vehnäjauhoja, 1ps kuivahiivaa, 1tl suolaa, 1rkl öljyä",
+    "portions": 10,
+    "time": "60min",
+    "genre": 5,
+    "is_published": true
+  },
+  {
+    "name": "Kasviswokki",
+    "instructions": "Paista kasvikset pannulla, lisää soijakastike.",
+    "info": "Nopea ja terveellinen pääruoka.",
+    "ingredients": "1 paprika, 1 porkkana, 1 sipuli, 1 kesäkurpitsa, soijakastike",
+    "portions": 2,
+    "time": "15min",
+    "genre": 1,
+    "is_published": true
+  },
+  {
+    "name": "Ruisleivät",
+    "instructions": "Levitä haluamasi täytteet ruisleiville.",
+    "info": "Suomalainen perusvälipala.",
+    "ingredients": "4 viipaletta ruisleipää, voi, juusto, kurkku, kinkku",
+    "portions": 2,
+    "time": "5min",
+    "genre": 6,
+    "is_published": true
+  }
+]
