@@ -1,6 +1,9 @@
 package com.group16.tools;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -12,9 +15,16 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class RecipeParser {
-    public static List<Recipe> parseRecipes(String filePath) throws IOException {
-        String content = Files.readString(Path.of(filePath));
-        JSONArray jsonArray = new JSONArray(content);
+    public static List<Recipe> parseRecipes(InputStream inputStream) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+        String line = "";
+        StringBuilder sb = new StringBuilder();
+
+        while ((line = reader.readLine()) != null) {
+            sb.append(line);
+        }
+        JSONArray jsonArray = new JSONArray(sb.toString());
         List<Recipe> recipes = new ArrayList<>();
 
         for (int i = 0; i < jsonArray.length(); i++) {

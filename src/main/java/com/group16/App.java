@@ -3,13 +3,13 @@ package com.group16;
 import com.group16.model.Recipe;
 import com.group16.service.DatabaseService;
 import com.group16.tools.RecipeParser;
-import com.group16.util.ConstantValues;
 import com.group16.util.SceneSwitcher;
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,8 +27,16 @@ public class App extends Application {
     private static void setupDatabase() {
         try {
             DatabaseService instance = DatabaseService.getInstance();
+            System.out.println(System.getProperty("java.class.path"));
             if (instance.getAllRecipes().isEmpty()) {
-                List<Recipe> recipes = RecipeParser.parseRecipes(ConstantValues.RECIPE_FILEPATH);
+                InputStream resourceAsStream = App.class.getResourceAsStream("/placeholder-recipes.json");
+                List<Recipe> recipes = new ArrayList<>();
+                if (resourceAsStream == null) {
+                    System.out.println("Resource not found: placeholder-recipes.json");
+                } else {
+                    recipes = RecipeParser.parseRecipes(resourceAsStream);
+                }
+
                 for (Recipe recipe : recipes) {
                     instance.createRecipe(recipe);
                 }
@@ -37,7 +45,8 @@ public class App extends Application {
                 instance.addUser("admin", "admin");
             }
         } catch (Exception e) {
-            System.out.println("Error initializing example recipes and admin user: " + e.getMessage());
+            System.out.println("Error initializing example recipes and admin user: ");
+            e.printStackTrace();
         }
     }
 

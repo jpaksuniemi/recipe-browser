@@ -22,6 +22,8 @@ public class SceneSwitcher {
         stage.setMinHeight(ConstantValues.BASE_HEIGHT);
         stage.setMinWidth(ConstantValues.BASE_WIDTH);
 
+        stage.setTitle("Reseptiselain");
+
         AutoScaler.setScene(mainScene);
         stage.setScene(mainScene);
         currentScene = mainScene;

@@ -1,23 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.group16</groupId>
     <artifactId>recipe-browser</artifactId>
     <version>1.0-SNAPSHOT</version>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>23</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
             <version>23</version>
         </dependency>
         <dependency>
@@ -30,15 +27,16 @@
             <artifactId>javafx-graphics</artifactId>
             <version>23</version>
         </dependency>
-
         <dependency>
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.48.0.0</version>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
+            <!-- Compiler plugin to set Java version -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -47,21 +45,92 @@
                     <release>11</release>
                 </configuration>
             </plugin>
+
+            <!-- JavaFX Maven Plugin for running and packaging with jlink -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.6</version>
+                <version>0.0.8</version>
                 <executions>
                     <execution>
-                        <!-- Default configuration for running -->
-                        <!-- Usage: mvn clean javafx:run -->
-                        <id>default-cli</id>
+                        <goals>
+                            <goal>jlink</goal>  <!-- Used to create custom JDK image -->
+                            <goal>run</goal>
+                        </goals>
                         <configuration>
-                            <mainClass>com.group16.App</mainClass>
+                            <mainClass>com.group16.App</mainClass>  <!-- Your Main class -->
+                            <launcher>RecipeBrowser</launcher>  <!-- The launcher name -->
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>com.group16.App</mainClass>  <!-- Your Main class -->
+                    <launcher>RecipeBrowser</launcher>  <!-- The launcher name -->
+                </configuration>
+            </plugin>
+
+            <!-- Exec Maven Plugin to invoke jpackage -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>jpackage</executable>
+                            <arguments>
+                                <argument>--type</argument>
+                                <argument>app-image</argument>  <!-- Create the image from the jlink image -->
+                                <argument>--name</argument>
+                                <argument>RecipeBrowser</argument>
+                                <argument>--input</argument>
+                                <argument>target/jlink-image</argument>  <!-- Path to the jlink image -->
+                                <argument>--main-jar</argument>
+                                <argument>recipe-browser-1.0-SNAPSHOT.jar</argument>  <!-- Your JAR file -->
+                                <argument>--main-class</argument>
+                                <argument>com.group16.App</argument>  <!-- Your main class -->
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Main-Class>com.group16.App</Main-Class>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
+
+        <!-- Include the resources in the final package -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.json</include>
+                    <include>**/*.css</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 </project>

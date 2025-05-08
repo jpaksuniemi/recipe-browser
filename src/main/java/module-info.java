@@ -1,9 +1,9 @@
 module com.group16 {
     requires javafx.controls;
-    requires javafx.fxml;
     requires java.sql;
     requires javafx.graphics;
     requires org.json;
+    requires org.xerial.sqlitejdbc;
     requires jdk.compiler;
 
     opens com.group16.view to javafx.graphics;
