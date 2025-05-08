@@ -2,7 +2,6 @@ package com.group16;
 
 import com.group16.model.Recipe;
 import com.group16.service.DatabaseService;
-import com.group16.tools.RecipeGenerator;
 import com.group16.tools.RecipeParser;
 import com.group16.util.ConstantValues;
 import com.group16.util.SceneSwitcher;
@@ -11,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -19,22 +17,28 @@ import java.util.List;
  */
 public class App extends Application {
 
-    private static Scene scene;
-
     @Override
     public void start(Stage stage) throws IOException {
-        try {
-            if (DatabaseService.getInstance().getAllRecipes().isEmpty()) {
-                List<Recipe> recipes = RecipeParser.parseRecipes(ConstantValues.RECIPE_FILEPATH);
-                for (Recipe recipe : recipes) {
-                    DatabaseService.getInstance().createRecipe(recipe);
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Error initializing example recipes: " + e.getMessage());
-        }
+        setupDatabase();
         SceneSwitcher.initialize(stage);
         stage.show();
+    }
+
+    private static void setupDatabase() {
+        try {
+            DatabaseService instance = DatabaseService.getInstance();
+            if (instance.getAllRecipes().isEmpty()) {
+                List<Recipe> recipes = RecipeParser.parseRecipes(ConstantValues.RECIPE_FILEPATH);
+                for (Recipe recipe : recipes) {
+                    instance.createRecipe(recipe);
+                }
+            }
+            if (!instance.authenticateUser("admin", "admin")) {
+                instance.addUser("admin", "admin");
+            }
+        } catch (Exception e) {
+            System.out.println("Error initializing example recipes and admin user: " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) {
