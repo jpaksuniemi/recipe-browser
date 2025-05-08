@@ -79,6 +79,9 @@ public class Registration {
                 handleRegistration(usernameInput.getText(), passwordInput.getText());
             }
         });
+        usernameInput.setOnAction(e -> registerButton.fire());
+        passwordInput.setOnAction(e -> registerButton.fire());
+        confirmInput.setOnAction(e -> registerButton.fire());
 
         Button returnButton = new Button("Palaa takaisin");
         returnButton.setId("back");

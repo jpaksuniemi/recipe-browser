@@ -1,7 +1,5 @@
 package com.group16.util;
 
-import java.util.ArrayList;
-
 import com.group16.view.CreateRecipe;
 import com.group16.view.Login;
 import com.group16.view.MainView;
@@ -13,49 +11,43 @@ public class SceneSwitcher {
 
     private static Stage stage;
     private static Scene currentScene;
-    public static boolean loginStatus = false;
+    private static boolean loginStatus = false;
 
     public static void initialize(Stage stage) {
         SceneSwitcher.stage = stage;
-        Scene login = new Scene(new Login().getLoginScreen(), ConstantValues.BASE_WIDTH, ConstantValues.BASE_HEIGHT);
+        Scene mainScene = new Scene(new Login().getLoginScreen(), ConstantValues.BASE_WIDTH, ConstantValues.BASE_HEIGHT);
         System.out.println(System.getProperty("user.dir"));
-        login.getStylesheets().add(("/style.css"));
+        mainScene.getStylesheets().add(("/style.css"));
 
-        AutoScaler.setActiveScene(login);
-        stage.setScene(login);
-        currentScene = login;
+        stage.setMinHeight(ConstantValues.BASE_HEIGHT);
+        stage.setMinWidth(ConstantValues.BASE_WIDTH);
+
+        AutoScaler.setScene(mainScene);
+        stage.setScene(mainScene);
+        currentScene = mainScene;
     }
 
     public static void switchToRegistration() {
-        Scene registration = new Scene(new Registration().getRegistrationForm(), currentScene.getWidth(), currentScene.getHeight());
-        registration.getStylesheets().add(("/style.css"));
-        stage.setScene(registration);
-        AutoScaler.setActiveScene(registration);
-        currentScene = registration;
+        currentScene.setRoot(new Registration().getRegistrationForm());
     }
 
     public static void switchToLogin() {
-        Scene login = new Scene(new Login().getLoginScreen(), currentScene.getWidth(), currentScene.getHeight());
-        login.getStylesheets().add(("/style.css"));
-        stage.setScene(login);
-        AutoScaler.setActiveScene(login);
-        currentScene = login;
+        currentScene.setRoot(new Login().getLoginScreen());
     }
 
     public static void switchToMainView() {
-        Scene mainView = new Scene(new MainView().getView(), currentScene.getWidth(), currentScene.getHeight());
-        mainView.getStylesheets().add(("/style.css"));
-        stage.setScene(mainView);
-        AutoScaler.setActiveScene(mainView);
-        currentScene = mainView;
+        currentScene.setRoot(new MainView().getView());
     }
 
     public static void switchToCreateRecipe(){
-        Scene createRecipe = new Scene(new CreateRecipe().getRecipeForm(), currentScene.getWidth(), currentScene.getHeight());
-        createRecipe.getStylesheets().add(("/style.css"));
-        stage.setScene(createRecipe);
-        AutoScaler.setActiveScene(createRecipe);
-        currentScene = createRecipe;
+        currentScene.setRoot(new CreateRecipe().getRecipeForm());
     }
 
+    public static boolean isLoginStatus() {
+        return loginStatus;
+    }
+
+    public static void setLoginStatus(boolean loginStatus) {
+        SceneSwitcher.loginStatus = loginStatus;
+    }
 }

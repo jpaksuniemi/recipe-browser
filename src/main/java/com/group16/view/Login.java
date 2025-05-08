@@ -73,6 +73,8 @@ public class Login {
                 errorMessage.setText("Täytä kaikki kentät");
             }
         });
+        password.setOnAction(e -> login.fire());
+        username.setOnAction(e -> login.fire());
 
         errorMessage.setFill(Color.RED);
         errorMessage.wrappingWidthProperty().bind(vbox.widthProperty());
@@ -107,7 +109,7 @@ public class Login {
         int status = controller.loginUser(username, password);
         if (status == LoginController.AUTHENTICATED) {
             PopupScreen dialog = new PopupScreen("Kirjautuminen onnistui");
-            SceneSwitcher.loginStatus = true;
+            SceneSwitcher.setLoginStatus(true);
             if (dialog.getPopupWindow().showAndWait().isPresent()) {
                 SceneSwitcher.switchToMainView();
             }

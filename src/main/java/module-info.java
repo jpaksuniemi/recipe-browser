@@ -4,6 +4,7 @@ module com.group16 {
     requires java.sql;
     requires javafx.graphics;
     requires org.json;
+    requires jdk.compiler;
 
     opens com.group16.view to javafx.graphics;
     opens com.group16.tools to org.json;
