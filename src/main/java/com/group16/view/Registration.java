@@ -102,7 +102,8 @@ public class Registration {
         if (status == RegistrationController.SUCCESS) {
             PopupScreen popupScreen = new PopupScreen("Rekisteröinti onnistui");
             if (popupScreen.getPopupWindow().showAndWait().isPresent()) {
-                SceneSwitcher.switchToLogin();
+                SceneSwitcher.setLoginStatus(true);
+                SceneSwitcher.switchToMainView();
             }
         } else if (status == RegistrationController.FAILURE) {
             errorMessage.setText("Käyttäjänimi on jo käytössä");
